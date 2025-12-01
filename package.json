@@ -1,5 +1,6 @@
 {
   "name": "part-gen",
+  "description": "BIR Part Generator AI",
   "version": "0.1.0",
   "private": true,
   "scripts": {
