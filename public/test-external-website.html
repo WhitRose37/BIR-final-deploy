@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Form - External Website</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      padding: 40px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      border-bottom: 3px solid #667eea;
+      padding-bottom: 20px;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .header p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #667eea;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .form-section {
+      margin-bottom: 25px;
+    }
+
+    .form-section h3 {
+      font-size: 14px;
+      color: #667eea;
+      font-weight: 700;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .form-row.full {
+      grid-template-columns: 1fr;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .instructions {
+      background: #f0f4ff;
+      border-left: 4px solid #667eea;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 25px;
+      font-size: 13px;
+      color: #333;
+    }
+
+    .instructions h4 {
+      color: #667eea;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+
+    .instructions ol {
+      margin-left: 20px;
+      line-height: 1.8;
+    }
+
+    .instructions li {
+      margin-bottom: 6px;
+    }
+
+    .instructions code {
+      background: white;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      color: #764ba2;
+      font-size: 12px;
+    }
+
+    .button-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    button {
+      padding: 14px;
+      font-size: 13px;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-clear {
+      background: #f0f0f0;
+      color: #333;
+    }
+
+    .btn-clear:hover {
+      background: #e0e0e0;
+    }
+
+    .btn-test {
+      background: #667eea;
+      color: white;
+    }
+
+    .btn-test:hover {
+      background: #5568d3;
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .status-box {
+      background: #e8f5e9;
+      border: 2px solid #4caf50;
+      border-radius: 6px;
+      padding: 15px;
+      margin-top: 20px;
+      display: none;
+      font-size: 13px;
+    }
+
+    .status-box.show {
+      display: block;
+    }
+
+    .status-box.error {
+      background: #ffebee;
+      border-color: #f44336;
+    }
+
+    .status-box.error::before {
+      content: "❌ ";
+      color: #f44336;
+      font-weight: 600;
+    }
+
+    .status-box.success::before {
+      content: "✅ ";
+      color: #4caf50;
+      font-weight: 600;
+    }
+
+    .field-hint {
+      font-size: 11px;
+      color: #999;
+      margin-top: 4px;
+      font-style: italic;
+    }
+
+    .divider {
+      height: 1px;
+      background: #e0e0e0;
+      margin: 25px 0;
+    }
+
+    @media (max-width: 600px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .button-group {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>🔧 Product Entry Form</h1>
+      <p>This is a sample external website</p>
+      <span class="badge">📝 Test Form for Bookmarklet</span>
+    </div>
+
+    <!-- Instructions -->
+    <div class="instructions">
+      <h4>📖 How to Test Bookmarklet:</h4>
+      <ol>
+        <li>Open <code>http://localhost:3000</code> in a new tab</li>
+        <li>Go to Generator page and generate a part</li>
+        <li>Click <code>📋 Bookmarklet Mode</code> button</li>
+        <li>Return to this page</li>
+        <li>Click your <code>🤖 BIR Auto-Fill</code> bookmark</li>
+        <li>Form should auto-fill with data from BIR! ✨</li>
+      </ol>
+    </div>
+
+    <!-- Form -->
+    <form id="testForm">
+      <!-- Section 1: Basic Info -->
+      <div class="form-section">
+        <h3>📋 Basic Information</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="partNumber">Part Number</label>
+            <input type="text" id="partNumber" name="partNumber" placeholder="e.g., NSK 6000ZZ">
+            <span class="field-hint">Unique part identifier</span>
+          </div>
+          <div class="form-group">
+            <label for="productName">Product Name</label>
+            <input type="text" id="productName" name="productName" placeholder="e.g., Bearing Assembly">
+            <span class="field-hint">Full product name</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Names & UOM -->
+      <div class="form-section">
+        <h3>🌐 Names & Units</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="commonNameEn">Common Name (EN)</label>
+            <input type="text" id="commonNameEn" name="commonNameEn" placeholder="e.g., Ball Bearing">
+            <span class="field-hint">English name</span>
+          </div>
+          <div class="form-group">
+            <label for="commonNameTh">Common Name (TH)</label>
+            <input type="text" id="commonNameTh" name="commonNameTh" placeholder="e.g., ลูกปืน">
+            <span class="field-hint">Thai name</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="uom">Unit of Measure</label>
+            <input type="text" id="uom" name="uom" placeholder="e.g., piece, meter, kg">
+            <span class="field-hint">Unit of measurement</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Technical Details -->
+      <div class="form-section">
+        <h3>⚙️ Technical Details</h3>
+        <div class="form-row full">
+          <div class="form-group">
+            <label for="characteristics">Characteristics (EN)</label>
+            <textarea id="characteristics" name="characteristics" placeholder="Material, dimensions, specs..."></textarea>
+            <span class="field-hint">Material, size, specifications</span>
+          </div>
+        </div>
+        <div class="form-row full">
+          <div class="form-group">
+            <label for="function">Function (EN)</label>
+            <textarea id="function" name="function" placeholder="What does it do?"></textarea>
+            <span class="field-hint">Main function/purpose</span>
+          </div>
+        </div>
+        <div class="form-row full">
+          <div class="form-group">
+            <label for="whereUsed">Where Used (EN)</label>
+            <textarea id="whereUsed" name="whereUsed" placeholder="Industries, applications..."></textarea>
+            <span class="field-hint">Applications and industries</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 4: Trade Info -->
+      <div class="form-section">
+        <h3>🧾 Trade Information</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="eccn">ECCN</label>
+            <input type="text" id="eccn" name="eccn" placeholder="e.g., EAR99">
+            <span class="field-hint">Export Control Classification</span>
+          </div>
+          <div class="form-group">
+            <label for="hts">HTS</label>
+            <input type="text" id="hts" name="hts" placeholder="e.g., 8483.20.40">
+            <span class="field-hint">Harmonized Tariff Schedule</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="coo">Country of Origin</label>
+            <input type="text" id="coo" name="coo" placeholder="e.g., Japan, Thailand">
+            <span class="field-hint">Manufacturer's country</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Buttons -->
+      <div class="button-group">
+        <button type="reset" class="btn-clear">🔄 Clear Form</button>
+        <button type="button" class="btn-test" id="testBtn">✅ Test Form</button>
+      </div>
+
+      <!-- Status Box -->
+      <div class="status-box" id="statusBox"></div>
+    </form>
+  </div>
+
+  <script>
+    // Log all field IDs for debugging
+    const fieldIds = [
+      'partNumber', 'productName', 'commonNameEn', 'commonNameTh',
+      'uom', 'characteristics', 'function', 'whereUsed',
+      'eccn', 'hts', 'coo'
+    ];
+
+    function showStatus(msg, isError = false) {
+      const box = document.getElementById('statusBox');
+      box.textContent = msg;
+      box.className = `status-box show ${isError ? 'error' : 'success'}`;
+      setTimeout(() => {
+        box.classList.remove('show');
+      }, 5000);
+    }
+
+    // Test button
+    document.getElementById('testBtn').addEventListener('click', () => {
+      const data = {};
+      let filled = 0;
+
+      fieldIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.value) {
+          data[id] = el.value;
+          filled++;
+        }
+      });
+
+      if (filled === 0) {
+        showStatus('ℹ️ Form is empty. Fill it with Bookmarklet or manually.', true);
+      } else {
+        showStatus(`✅ Form has ${filled} field(s) filled!`);
+        console.log('Form data:', data);
+      }
+    });
+
+    // Auto-fill reference (for testing without bookmarklet)
+    window.testAutoFill = function(data) {
+      Object.entries(data).forEach(([key, value]) => {
+        const el = document.getElementById(key);
+        if (el) {
+          el.value = value || '';
+        }
+      });
+      showStatus('✅ Auto-filled with test data!');
+    };
+
+    console.log('%c🤖 BIR Bookmarklet Test Page Ready', 'font-size: 16px; color: #667eea; font-weight: bold;');
+    console.log('Available field IDs:', fieldIds);
+    console.log('Test command: window.testAutoFill({partNumber: "TEST123", productName: "Test Motor"})');
+  </script>
+</body>
+</html>

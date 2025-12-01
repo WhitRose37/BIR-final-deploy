@@ -1,0 +1,143 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Glossary {
+  id                           String              @id @default(uuid())
+  termTh                       String
+  termEn                       String
+  longTh                       String?
+  longEn                       String?
+  partNumber                   String              @unique
+  projectName                  String?
+  productName                  String?
+  commonNameEn                 String?
+  commonNameTh                 String?
+  uom                          String?
+  characteristicsOfMaterialEn  String?
+  characteristicsOfMaterialTh  String?
+  estimatedCapacityMachineYear String?
+  quantityToUse                String?
+  functionEn                   String?
+  functionTh                   String?
+  whereUsedEn                  String?
+  whereUsedTh                  String?
+  eccn                         String?
+  hts                          String?
+  coo                          String?
+  tagsJson                     Json?
+  imagesJson                   Json?
+  sourcesJson                  Json?
+  createdById                  String?
+  createdByName                String?
+  createdAt                    DateTime            @default(now())
+  updatedAt                    DateTime            @updatedAt
+  SavedPartFavorite            SavedPartFavorite[]
+
+  @@index([partNumber])
+  @@index([updatedAt])
+}
+
+model SavedPartFavorite {
+  id              String           @id @default(uuid())
+  userId          String
+  glossaryId      String?
+  globalId        String?
+  createdAt       DateTime         @default(now())
+  SavedPartGlobal SavedPartGlobal? @relation(fields: [globalId], references: [id], onDelete: Cascade)
+  Glossary        Glossary?        @relation(fields: [glossaryId], references: [id], onDelete: Cascade)
+  User            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, globalId])
+  @@unique([userId, glossaryId])
+  @@index([globalId])
+  @@index([glossaryId])
+  @@index([userId])
+}
+
+model SavedPartGlobal {
+  id                           String              @id @default(uuid())
+  partNumber                   String              @unique
+  projectName                  String?
+  productName                  String?
+  commonNameEn                 String?
+  commonNameTh                 String?
+  uom                          String?
+  characteristicsOfMaterialEn  String?
+  characteristicsOfMaterialTh  String?
+  estimatedCapacityMachineYear String?
+  quantityToUse                String?
+  functionEn                   String?
+  functionTh                   String?
+  whereUsedEn                  String?
+  whereUsedTh                  String?
+  longTh                       String?
+  longEn                       String?
+  eccn                         String?
+  hts                          String?
+  coo                          String?
+  tagsJson                     Json?
+  imagesJson                   Json?
+  sourcesJson                  Json?
+  createdById                  String?
+  createdByName                String?
+  createdAt                    DateTime            @default(now())
+  updatedAt                    DateTime            @updatedAt
+  SavedPartFavorite            SavedPartFavorite[]
+
+  @@index([partNumber])
+  @@index([updatedAt])
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  userAgent String?
+  ip        String?
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([userId])
+}
+
+model User {
+  id                String              @id @default(uuid())
+  email             String              @unique
+  passwordHash      String
+  name              String?
+  avatar            String?
+  role              String              @default("USER")
+  status            String              @default("ACTIVE")
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  SavedPartFavorite SavedPartFavorite[]
+  sessions          Session[]
+  TokenUsage        TokenUsage[]
+
+  @@index([role])
+  @@index([status])
+}
+
+model TokenUsage {
+  id               String   @id @default(uuid())
+  userId           String?
+  model            String
+  promptTokens     Int
+  completionTokens Int
+  totalTokens      Int
+  cost             Float
+  action           String?
+  createdAt        DateTime @default(now())
+  User             User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([createdAt])
+}
