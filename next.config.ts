@@ -5,10 +5,8 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   output: "standalone",
   serverExternalPackages: ["bcrypt"],
-  experimental: {
-    outputFileTracingIncludes: {
-      "/api/**/*": ["./node_modules/.prisma/client/**/*", "./node_modules/@prisma/client/**/*"],
-    },
+  outputFileTracingIncludes: {
+    "/api/**/*": ["./node_modules/.prisma/client/**/*", "./node_modules/@prisma/client/**/*"],
   },
   images: {
     remotePatterns: [
