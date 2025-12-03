@@ -417,8 +417,8 @@ export default function GeneratorPage() {
       {/* Header */}
       <header className="header">
         <div>
-          <h1 className="title">Part Generator</h1>
-          <p style={{ color: "var(--muted)" }}>AI-powered specification generator</p>
+          <h1 className="title">Part Specification Generator</h1>
+          <p style={{ color: "var(--muted)" }}>Search your part Number to generate specification</p>
         </div>
       </header>
 
