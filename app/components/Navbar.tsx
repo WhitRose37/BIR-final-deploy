@@ -47,7 +47,7 @@ export default function Navbar() {
   if (!mounted) return null;
 
   const navLinks = [
-    { href: "/generator", label: "🔍 Single Generator" },
+    { href: "/generator", label: "🔍 Part Spec Generator" },
     { href: "/batch-search", label: "📦 Batch Search" },
     { href: "/dashboard", label: "📊 Dashboard" },
     { href: "/saved-global", label: "🌐 Saved Parts" },
